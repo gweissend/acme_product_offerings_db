@@ -1,0 +1,20 @@
+{
+  "name": "acme_product_offerings_db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gweissend/acme_product_offerings_db.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gweissend/acme_product_offerings_db/issues"
+  },
+  "homepage": "https://github.com/gweissend/acme_product_offerings_db#readme"
+}
