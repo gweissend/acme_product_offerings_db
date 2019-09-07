@@ -27,5 +27,5 @@ Object.keys(routes).forEach(key => {
 
 db.syncAndSeed()
   .then(() => {
-    app.listen(port, () => console.log('listening to port 3000'));
+    app.listen(port, () => console.log(`listening onn port ${port}`));
   })

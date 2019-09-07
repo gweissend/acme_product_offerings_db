@@ -1,7 +1,9 @@
 
 const Sequelize = require('sequelize')
+const {UUID, UUIDV4, STRING, DECIMAL} = Sequelize;
+
 const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme_product_offerings_db')
-const {UUID, UUIDV4, STRING, DECIMAL} = Sequelize
+
 
 const defineId = {
     primaryKey: true,
@@ -30,7 +32,7 @@ const Company = conn.define('company',{
 })
 
 const Offering = conn.define('offering',{
-    id: defineId,    
+    id: defineId,
     price: DECIMAL,
 })
 
@@ -43,13 +45,16 @@ Product.hasMany(Offering);
 const map = (model, data) => data.map(value => model.create(value))
 
 const syncAndSeed = async () => {
-    conn.sync({force: true})
+    await conn.sync({force: true});
     const products = [
         {name: "ipad", suggestedPrice: 100},
         {name: "iphone", suggestedPrice: 1},
         {name: "macBook", suggestedPrice: 10000000}
     ]
+
+
     const [ipad, iphone, macBook] = await Promise.all(map(Product, products))
+
     const companies = [
         {name: "apple"},
         {name: "fullstack"},
@@ -75,4 +80,3 @@ module.exports = {
     }
 }
 
-syncAndSeed();
