@@ -30,9 +30,15 @@ const Company = conn.define('company',{
 })
 
 const Offering = conn.define('offering',{
-    id: defineId,
+    id: defineId,    
     price: DECIMAL,
 })
+
+Offering.belongsTo(Company);
+Offering.belongsTo(Product);
+
+Company.hasMany(Offering);
+Product.hasMany(Offering);
 
 const map = (model, data) => data.map(value => model.create(value))
 
@@ -44,6 +50,29 @@ const syncAndSeed = async () => {
         {name: "macBook", suggestedPrice: 10000000}
     ]
     const [ipad, iphone, macBook] = await Promise.all(map(Product, products))
+    const companies = [
+        {name: "apple"},
+        {name: "fullstack"},
+        {name: "bestbuy"}
+    ]
+    const [apple, fullstack, bestbuy] = await Promise.all(map(Company, companies));
+    const offerings = [
+        {price: 200, productId: ipad.id, companyId: apple.id},
+        {price: 100, productId: ipad.id, companyId: bestbuy.id},
+        {price: 300, productId: iphone.id, companyId: fullstack.id},
+        {price: 2000, productId: iphone.id, companyId: bestbuy.id},
+        {price: 50, productId: macBook.id, companyId: apple.id}
+    ]
+    await Promise.all(map(Offering, offerings));
 }
 
-syncAndSeed()
+module.exports = {
+    syncAndSeed,
+    models: {
+        Product,
+        Company,
+        Offering
+    }
+}
+
+syncAndSeed();
